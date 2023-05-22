@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CommonActions } from "@react-navigation/native";
+import { API_URL } from "@env";
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState();
@@ -14,10 +15,9 @@ export default function LoginScreen({ navigation }) {
 
   const SubmitLogin = async () => {
     setLoader(true);
-    console.log("enter");
     try {
         const response = await fetch(
-        "https://6cd5-83-118-208-130.ngrok-free.app/login",
+          `${API_URL}/login`,
         {
           method: "POST",
           headers: {
