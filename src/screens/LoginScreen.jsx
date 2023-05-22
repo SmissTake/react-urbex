@@ -84,6 +84,11 @@ export default function LoginScreen({ navigation }) {
               onPress={() => SubmitLogin(username, password)}
             />
           )}
+
+          <Button
+            label='Register'
+            onPress={() => navigation.navigate('RegisterScreen')}
+          />
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
