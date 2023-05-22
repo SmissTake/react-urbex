@@ -1,34 +1,34 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import {
-  Text,
-  FlatList,
-} from 'react-native';
+import React, { Fragment, useEffect, useState } from "react";
+import { Text, View } from "react-native";
+import PlaceCard from "./PlaceCard";
 import { API_URL } from "@env";
 
 export default function PlacesList() {
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-    useEffect(() => {
-        fetch(`${API_URL}`)
-            .then((response) => response.json())
-            .then((json) => {
-                setData(json);
-                console.log(json);
-            })
-            .catch((error) => console.error(error))
-    }, []);
+  useEffect(() => {
+    fetch(`${API_URL}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json);
+        console.log(json);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
-
-    return (
-        <Fragment>
-            <Text>Places</Text>
-            <FlatList
-                data={data}
-                renderItem={({item}) => (
-                    <Text>{item.title} {item.town}</Text>
-                )}
-                keyExtractor={item => item.title}
-            />
-        </Fragment>
-    )
+  return (
+    <Fragment>
+      <Text>Places</Text>
+      <View >
+        {data.map((place) => (
+          <PlaceCard
+            key={place._id}
+            title={place.title}
+            town={place.town}
+            image={place.images[0].url}
+          />
+        ))}
+      </View>
+    </Fragment>
+  );
 }
