@@ -19,7 +19,7 @@ export default function PlacesList() {
   return (
     <Fragment>
       <Text>Places</Text>
-      <View>
+      <View >
         {data.map((place) => (
           <PlaceCard
             key={place._id}
