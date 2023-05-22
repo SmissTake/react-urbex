@@ -13,6 +13,20 @@ export default function LoginScreen({ navigation }) {
 
   const [loader, setLoader] = useState(false);
 
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        const resetAction = CommonActions.reset({
+          index: 1,
+          routes: [{ name: "HomeScreen" }],
+        });
+        navigation.dispatch(resetAction);
+      }
+    };
+    checkToken();
+  }, []);
+
   const SubmitLogin = async () => {
     setLoader(true);
     try {
@@ -44,21 +58,6 @@ export default function LoginScreen({ navigation }) {
       setLoader(false);
       console.log(error);
     }
-
-    useEffect(() => {
-      const checkToken = async () => {
-        const token = await AsyncStorage.getItem("token");
-        if (token) {
-          const resetAction = CommonActions.reset({
-            index: 1,
-            routes: [{ name: "HomeScreen" }],
-          });
-          navigation.dispatch(resetAction);
-        }
-      };
-      checkToken();
-    }, []);
-
     setLoader(false);
     return;
   };
