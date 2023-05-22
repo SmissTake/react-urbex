@@ -1,13 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, SafeAreaView } from 'react-native';
-import PlacesList from '../components/PlacesList';
+import Button from '../components/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function UserScreen() {
+export default function UserScreen({ navigation }) {
+
+  const logout = () => {
+    AsyncStorage.removeItem('token');
+    navigation.navigate('LoginScreen');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      <PlacesList/>
+      
+      <Button
+        label="Logout"
+        onPress={() => {
+          console.log('Logout');
+          logout();
+        }}
+      />
     </SafeAreaView>
   );
 }
