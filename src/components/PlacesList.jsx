@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import PlaceCard from "./PlaceCard";
 import { API_URL } from "@env";
 
@@ -17,9 +17,11 @@ export default function PlacesList() {
   }, []);
 
   return (
-    <Fragment>
-      <Text>Places</Text>
-      <View >
+    <View>
+      <Text style={styles.header}>Places</Text>
+      <ScrollView
+        horizontal={true}
+        stickyHeaderIndices={[0]}>
         {data.map((place) => (
           <PlaceCard
             key={place._id}
@@ -28,7 +30,19 @@ export default function PlacesList() {
             image={place.images[0].url}
           />
         ))}
-      </View>
-    </Fragment>
+      </ScrollView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    padding: 10,
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
+    alignSelf: "stretch",
+  },
+});
