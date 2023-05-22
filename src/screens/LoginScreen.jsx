@@ -17,15 +17,17 @@ export default function LoginScreen({ navigation }) {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem("token");
       if (token) {
-        const resetAction = CommonActions.reset({
-          index: 1,
-          routes: [{ name: "HomeScreen" }],
-        });
-        navigation.dispatch(resetAction);
+        redirectHome();
       }
     };
     checkToken();
   }, []);
+
+  const redirectHome = () => {
+    navigation.navigate('TabNavigator', {
+      screen: 'HomeScreen',
+    });
+  };
 
   const SubmitLogin = async () => {
     setLoader(true);
@@ -48,11 +50,7 @@ export default function LoginScreen({ navigation }) {
       if (response.status === 200) {
         AsyncStorage.setItem("token", json.token);
   
-        const resetAction = CommonActions.reset({
-          index: 1,
-          routes: [{ name: "HomeScreen" }],
-        });
-        navigation.dispatch(resetAction);
+        redirectHome();
       }
     } catch (error) {
       setLoader(false);
