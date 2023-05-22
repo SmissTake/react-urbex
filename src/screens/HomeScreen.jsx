@@ -1,15 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, SafeAreaView } from 'react-native';
-import Counter from '../components/Counter';
-import StarWars from '../components/StarWarsList';
+import PlacesList from '../components/PlacesList';
 
 export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      <Counter />
-      <StarWars/>
+      <PlacesList/>
     </SafeAreaView>
   );
 }

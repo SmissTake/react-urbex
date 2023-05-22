@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Keyboard, TextInput, TouchableWithoutFeedback, SafeAreaView } from "react-native";
 import Button from "../components/Button";
 import { StyleSheet } from "react-native";
@@ -44,6 +44,20 @@ export default function LoginScreen({ navigation }) {
       setLoader(false);
       console.log(error);
     }
+
+    useEffect(() => {
+      const checkToken = async () => {
+        const token = await AsyncStorage.getItem("token");
+        if (token) {
+          const resetAction = CommonActions.reset({
+            index: 1,
+            routes: [{ name: "HomeScreen" }],
+          });
+          navigation.dispatch(resetAction);
+        }
+      };
+      checkToken();
+    }, []);
 
     setLoader(false);
     return;
