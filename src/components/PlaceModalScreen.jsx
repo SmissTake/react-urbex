@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Modal,
   Text,
+  ScrollView,
   View,
   Image,
   StyleSheet,
@@ -52,7 +53,7 @@ export default function PlaceModalScreen({
         visible={modalVisible}
         presentationStyle={"pageSheet"}
       >
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <TouchableOpacity
             style={styles.closeButton}
             onPress={handleCloseModal}
@@ -74,7 +75,7 @@ export default function PlaceModalScreen({
           <Text>Accessibility : {data.accessibility}</Text>
           <Text>User : {data.user}</Text>
           <Text>Comments : {data.comments}</Text>
-        </View>
+        </ScrollView>
       </Modal>
     );
   }
@@ -82,7 +83,6 @@ export default function PlaceModalScreen({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
