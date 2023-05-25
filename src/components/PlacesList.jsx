@@ -1,22 +1,18 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Text,
   View,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Modal
 } from "react-native";
 import PlaceCard from "./PlaceCard";
 import { API_URL } from "@env";
-import { useNavigation } from "@react-navigation/native";
-import PlaceModalScreen from "./PlaceModalScreen";
+import { ModalContext } from "../contexts/ModalContext";
 
 export default function PlacesList() {
   const [data, setData] = useState([]);
-  const [selectedPlace, setSelectedPlace] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
+  const { openModal } = useContext(ModalContext);
   
   useEffect(() => {
     fetch(`${API_URL}`)
@@ -29,13 +25,9 @@ export default function PlacesList() {
   }, []);
 
   const handlePlacePress = (place) => {
-    setSelectedPlace(place);
-    setModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedPlace(null);
-    setModalVisible(false);
+    if (place) {
+      openModal(place);
+    }
   };
 
   return (
@@ -53,13 +45,6 @@ export default function PlacesList() {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      {selectedPlace && (
-        <PlaceModalScreen
-          modalVisible={modalVisible}
-          place={selectedPlace}
-          handleCloseModal={handleCloseModal}
-        />
-      )}
     </View>
   );
 }

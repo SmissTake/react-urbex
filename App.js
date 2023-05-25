@@ -9,16 +9,19 @@ import * as React from "react";
 import { useState } from "react";
 import { MessageProvider } from "./src/contexts/MessageContext";
 import { RootSiblingParent } from "react-native-root-siblings";
+import { ModalProvider } from "./src/contexts/ModalContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function TabNavigator() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name='HomeScreen' component={HomeScreen} />
-      <Tab.Screen name='UserScreen' component={UserScreen} />
-    </Tab.Navigator>
+    <ModalProvider>
+      <Tab.Navigator>
+        <Tab.Screen name='HomeScreen' component={HomeScreen} />
+        <Tab.Screen name='UserScreen' component={UserScreen} />
+      </Tab.Navigator>
+    </ModalProvider>
   );
 }
 
