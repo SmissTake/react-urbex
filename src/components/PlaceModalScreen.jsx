@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   Text,
@@ -13,27 +13,71 @@ export default function PlaceModalScreen({
   place,
   handleCloseModal,
 }) {
-  if (!place) {
-    return null;
-  }
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  return (
-    <Modal
-      animationType='slide'
-      transparent={false}
-      visible={modalVisible}
-      presentationStyle={"pageSheet"}
-    >
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.closeButton} onPress={handleCloseModal}>
-          <Text style={styles.closeButtonText}>Close</Text>
-        </TouchableOpacity>
-        <Image style={styles.image} source={{ uri: process.env.API_URL +'/'+ place.images[0].url }} />
-        <Text style={styles.title}>{place.title}</Text>
-        <Text style={styles.town}>{place.town}</Text>
-      </View>
-    </Modal>
-  );
+  useEffect(() => {
+    if (place) {
+      setLoading(true);
+      setData([]);
+      fetch(`${process.env.API_URL}/place/${place._id}`)
+        .then((response) => response.json())
+        .then((json) => {
+          setData(json);
+          setLoading(false);
+        })
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+    }
+  }, [place]);
+
+  if (loading) {
+    return (
+      <Modal
+        animationType='slide'
+        transparent={false}
+        visible={modalVisible}
+        presentationStyle={"pageSheet"}
+      >
+        <View style={styles.container}>
+          <Text>Loading...</Text>
+        </View>
+      </Modal>
+    );
+  } else {
+    return (
+      <Modal
+        animationType='slide'
+        transparent={false}
+        visible={modalVisible}
+        presentationStyle={"pageSheet"}
+      >
+        <View style={styles.container}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={handleCloseModal}
+          >
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+          {data.images.map((image) => (
+            <Image
+              key={image._id}
+              style={styles.image}
+              source={{ uri: process.env.API_URL + "/" + image.url }}
+            />
+          ))}
+          <Text style={styles.title}>{data.title}</Text>
+          <Text style={styles.town}>{data.town}</Text>
+          <Text>{data.description}</Text>
+          <Text>{data.history}</Text>
+          <Text>Category : {data.category}</Text>
+          <Text>Accessibility : {data.accessibility}</Text>
+          <Text>User : {data.user}</Text>
+          <Text>Comments : {data.comments}</Text>
+        </View>
+      </Modal>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
