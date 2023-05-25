@@ -2,17 +2,18 @@ import React from "react";
 import { StyleSheet, Text, Image, View } from "react-native";
 
 export default function PlaceCard({ title, town, image }) {
+
+  console.log(process.env.API_URL +'/'+ image);
   return (
     <View style={styles.placeCard}>
-      <Image source={{uri:image}} alt={title} style={styles.placeCardImage} />
+      <Image source={{uri:process.env.API_URL +'/'+ image}} alt={title} style={styles.placeCardImage} />
       <View style={styles.placeCardContent}>
         <Text style={styles.placeCardTitle}>{title}</Text>
         <Text style={styles.placeCardTown}>{town}</Text>
       </View>
     </View>
-  );
+  );process.env.API_URL + image
 }
-
 const styles = StyleSheet.create({
   placeCard: {
     display: "flex",
