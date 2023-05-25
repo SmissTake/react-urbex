@@ -6,6 +6,8 @@ import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import UserScreen from "./src/screens/UserScreen";
 import * as React from "react";
+import { useState } from "react";
+import { MessageProvider } from "./src/contexts/MessageContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,6 +23,7 @@ function TabNavigator() {
 
 export default function App() {
   return (
+    <MessageProvider>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
@@ -38,5 +41,6 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </MessageProvider>
   );
 }
