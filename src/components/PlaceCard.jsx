@@ -2,8 +2,6 @@ import React from "react";
 import { StyleSheet, Text, Image, View } from "react-native";
 
 export default function PlaceCard({ title, town, image }) {
-
-  console.log(process.env.API_URL +'/'+ image);
   return (
     <View style={styles.placeCard}>
       <Image source={{uri:process.env.API_URL +'/'+ image}} alt={title} style={styles.placeCardImage} />
@@ -12,7 +10,7 @@ export default function PlaceCard({ title, town, image }) {
         <Text style={styles.placeCardTown}>{town}</Text>
       </View>
     </View>
-  );process.env.API_URL + image
+  );
 }
 const styles = StyleSheet.create({
   placeCard: {

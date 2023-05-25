@@ -53,7 +53,6 @@ export default function LoginScreen({ navigation }) {
         }),
       });
       const json = await response.json();
-      console.log(json);
       if (response.status === 200) {
         AsyncStorage.setItem("token", json.token);
         showMessage('Login successful', 'success');
