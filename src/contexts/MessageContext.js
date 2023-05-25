@@ -1,30 +1,28 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import PopMessage from '../components/PopMessage';
 
 export const MessageContext = createContext();
 
 export function MessageProvider({ children }) {
-  const [message, setMessage] = useState("");
-  const [type, setType] = useState("");
+  const [message, setMessage] = useState(null);
 
   const showMessage = (message, type) => {
-    if (message == "") {
-      return;
-    }
-    setMessage(message);
-    setType(type);
+    setMessage({ message, type });
   };
 
-  const hideMessage = () => {
-    setMessage("");
-    setType("");
+  const handleClose = () => {
+    setMessage(null);
   };
 
   return (
-    <MessageContext.Provider value={{ showMessage, hideMessage }}>
+    <MessageContext.Provider value={{ showMessage }}>
       {children}
       {message && (
-        <PopMessage message={message} type={type} onClose={hideMessage} />
+        <PopMessage
+          message={message.message}
+          type={message.type}
+          onClose={handleClose}
+        />
       )}
     </MessageContext.Provider>
   );

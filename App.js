@@ -8,6 +8,7 @@ import UserScreen from "./src/screens/UserScreen";
 import * as React from "react";
 import { useState } from "react";
 import { MessageProvider } from "./src/contexts/MessageContext";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,23 +25,23 @@ function TabNavigator() {
 export default function App() {
   return (
     <MessageProvider>
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name='LoginScreen'
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          name='RegisterScreen'
-          component={RegisterScreen}
-        />
-        <Stack.Screen
-          name='TabNavigator'
-          component={TabNavigator}
-          options={{ headerShown: false, gestureEnabled: false, gestureDirection: 'horizontal' }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <RootSiblingParent>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name='LoginScreen' component={LoginScreen} />
+            <Stack.Screen name='RegisterScreen' component={RegisterScreen} />
+            <Stack.Screen
+              name='TabNavigator'
+              component={TabNavigator}
+              options={{
+                headerShown: false,
+                gestureEnabled: false,
+                gestureDirection: "horizontal",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </RootSiblingParent>
     </MessageProvider>
   );
 }
