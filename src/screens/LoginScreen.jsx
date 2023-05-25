@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { KeyboardAvoidingView, Keyboard, TextInput, TouchableWithoutFeedback, SafeAreaView } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import {
+  KeyboardAvoidingView,
+  Keyboard,
+  TextInput,
+  TouchableWithoutFeedback,
+  SafeAreaView,
+} from "react-native";
 import Button from "../components/Button";
 import { StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CommonActions } from "@react-navigation/native";
 import { API_URL } from "@env";
+import { MessageContext } from '../contexts/MessageContext';
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+
+  
+  const { showMessage } = useContext(MessageContext);
 
   const [loader, setLoader] = useState(false);
 
@@ -24,37 +34,38 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   const redirectHome = () => {
-    navigation.navigate('TabNavigator', {
-      screen: 'HomeScreen',
+    navigation.navigate("TabNavigator", {
+      screen: "HomeScreen",
     });
   };
 
   const SubmitLogin = async () => {
     setLoader(true);
     try {
-        const response = await fetch(
-          `${API_URL}/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            password,
-          }),
-        }
-      )
+      const response = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
       const json = await response.json();
       console.log(json);
       if (response.status === 200) {
         AsyncStorage.setItem("token", json.token);
-  
+        showMessage('Login successful', 'success');
         redirectHome();
+      }
+      if (response.status === 401) {
+        showMessage('Invalid username or password', 'error');
       }
     } catch (error) {
       setLoader(false);
       console.log(error);
+      showMessage('Something went wrong', 'error');
     }
     setLoader(false);
     return;
@@ -87,13 +98,13 @@ export default function LoginScreen({ navigation }) {
 
           <Button
             label='Register'
-            onPress={() => navigation.navigate('RegisterScreen')}
+            onPress={() => navigation.navigate("RegisterScreen")}
           />
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
