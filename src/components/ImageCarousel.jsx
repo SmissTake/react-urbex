@@ -1,12 +1,12 @@
 import Carousel from 'react-native-snap-carousel';
-import { Image } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
  
 export default function ImagesCarousel({ images }) {
     const renderItem = ({ item }) => {
         return (
             <Image
             source={{ uri: process.env.API_URL + "/" + item.url }}
-                style={{ width: 300, height: 300 }}
+                style={{ width: 300, height: 400 }}
             />
         );
     }
@@ -16,6 +16,7 @@ export default function ImagesCarousel({ images }) {
             data={images}
             renderItem={renderItem}
             sliderWidth={300}
+            borderRadius={5}
             itemWidth={300}
         />
     );
