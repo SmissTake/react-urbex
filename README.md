@@ -1,4 +1,4 @@
-# URBEX
+# URBEX
 
 An Urbex App to discover React Native and Expo.
 
