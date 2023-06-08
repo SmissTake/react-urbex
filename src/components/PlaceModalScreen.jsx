@@ -61,15 +61,42 @@ export default function PlaceModalScreen({
           >
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
+
+          <View style={styles.content}>
+            <Text style={styles.title}>{data.title}</Text>
+            <Text style={styles.town}>{data.town}</Text>
+          </View>
+
           <ImagesCarousel images={data.images} />
-          <Text style={styles.title}>{data.title}</Text>
-          <Text style={styles.town}>{data.town}</Text>
-          <Text>{data.description}</Text>
-          <Text>{data.history}</Text>
-          <Text>Category : {data.category}</Text>
-          <Text>Accessibility : {data.accessibility}</Text>
-          <Text>User : {data.user}</Text>
-          <Text>Comments : {data.comments}</Text>
+
+          {/* a row with the the user who posted, accessibility level and the category */}
+
+          <View style={styles.content}>
+            <View style={styles.row}>
+              <View style={styles.column}>
+                <Text style={styles.columnValue}>{data.user}</Text>
+              </View>
+              <View style={styles.column}>
+                <Text style={styles.columnValue}>{data.accessibility}</Text>
+              </View>
+              <View style={styles.column}>
+                <Text style={styles.columnValue}>{data.category}</Text>
+              </View>
+            </View>
+            <Text style={styles.sectionTitle}>Description</Text>
+            <Text>{data.description}</Text>
+
+            <Text style={styles.sectionTitle}>History</Text>
+            <Text>{data.history}</Text>
+
+            <Text style={styles.sectionTitle}>Category</Text>
+            <Text>{data.category}</Text>
+
+            <Text>User : {data.user}</Text>
+
+            <Text style={styles.sectionTitle}>Comments</Text>
+            <Text>{data.comments}</Text>
+          </View>
         </ScrollView>
       </Modal>
     );
@@ -81,11 +108,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
+    padding: 10,
   },
   closeButton: {
-    position: "absolute",
-    top: 40,
-    right: 20,
+    alignSelf: "flex-end",
+    padding: 10,
     zIndex: 1,
   },
   closeButtonText: {
@@ -93,18 +120,32 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
   },
-  image: {
-    width: "100%",
-    height: 200,
-    resizeMode: "cover",
-  },
   title: {
-    fontSize: 24,
+    fontSize: 40,
     fontWeight: "bold",
     marginVertical: 10,
   },
   town: {
     fontSize: 18,
-    color: "gray",
+    fontWeight: "bold",
+  },
+  content: {
+    textAlign: "justify",
+    width: "100%",
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginVertical: 10,
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 5,
+  },
+  column: {
+    flex: 1,
+    marginHorizontal: 5,
   },
 });
