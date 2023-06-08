@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./src/screens/HomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
+import CreatePlaceScreen from "./src/screens/CreatePlaceScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import UserScreen from "./src/screens/UserScreen";
 import * as React from "react";
@@ -19,6 +20,7 @@ function TabNavigator() {
     <ModalProvider>
       <Tab.Navigator>
         <Tab.Screen name='HomeScreen' component={HomeScreen} />
+        <Tab.Screen name='CreatePlaceScreen' component={CreatePlaceScreen} />
         <Tab.Screen name='UserScreen' component={UserScreen} />
       </Tab.Navigator>
     </ModalProvider>
