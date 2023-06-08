@@ -35,9 +35,8 @@ export default function PlacesList() {
       <Text style={styles.header}>Places</Text>
       <ScrollView horizontal={true} stickyHeaderIndices={[0]}>
         {data.map((place) => (
-          <TouchableOpacity onPress={() => handlePlacePress(place)}>
+          <TouchableOpacity key={place._id} onPress={() => handlePlacePress(place)}>
             <PlaceCard
-              key={place._id}
               title={place.title}
               town={place.town}
               image={place.images[0].url}
