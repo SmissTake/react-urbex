@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import ImagesCarousel from "./ImageCarousel";
 
 export default function PlaceModalScreen({
   modalVisible,
@@ -60,13 +61,7 @@ export default function PlaceModalScreen({
           >
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
-          {data.images.map((image) => (
-            <Image
-              key={image._id}
-              style={styles.image}
-              source={{ uri: process.env.API_URL + "/" + image.url }}
-            />
-          ))}
+          <ImagesCarousel images={data.images} />
           <Text style={styles.title}>{data.title}</Text>
           <Text style={styles.town}>{data.town}</Text>
           <Text>{data.description}</Text>
