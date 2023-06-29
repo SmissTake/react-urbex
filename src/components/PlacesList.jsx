@@ -10,7 +10,7 @@ import PlaceCard from "./PlaceCard";
 import { API_URL } from "@env";
 import { ModalContext } from "../contexts/ModalContext";
 
-export default function PlacesList() {
+export default function PlacesList({ onRefresh }) {
   const [data, setData] = useState([]);
   const { openModal } = useContext(ModalContext);
   
@@ -19,7 +19,7 @@ export default function PlacesList() {
       .then((response) => response.json())
       .then((json) => {
         setData(json);
-        console.log(json);
+        onRefresh();
       })
       .catch((error) => console.error(error));
   }, []);
