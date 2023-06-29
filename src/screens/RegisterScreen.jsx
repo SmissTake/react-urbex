@@ -74,6 +74,7 @@ export default function RegisterScreen({ navigation }) {
             style={styles.TextInput}
             autoCompleteType='email'
             textContentType='emailAddress'
+            keyboardType='email-address'
           />
           <TextInput
             placeholder='Password'
