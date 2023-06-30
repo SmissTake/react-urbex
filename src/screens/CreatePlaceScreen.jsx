@@ -25,13 +25,13 @@ export default function CreatePlaceScreen({ navigation }) {
 
   const handleSubmit = async() => {
     const data = new FormData();
-    data.append("title", title);
-    data.append("town", town);
-    data.append("description", description);
-    data.append("history", history);
-    data.append("accessibility", accessibility);
-    data.append("category", category);
-    data.append("images", {
+    data.append('title', title);
+    data.append('town', town);
+    data.append('description', description);
+    data.append('history', history);
+    data.append('accessibility', accessibility);
+    data.append('category', category);
+    data.append('images', {
       uri: image.uri,
       type: "image/jpeg",
       name: "image.jpg",
@@ -40,8 +40,9 @@ export default function CreatePlaceScreen({ navigation }) {
     console.log(data);
 
     fetch(`${process.env.API_URL}/place`, {
-      method: "POST",
+      method: 'POST',
       headers: {
+        "Content-Type": "multipart/form-data",
         "Authorization": `Bearer ${token}`,
       },
       body: data,
