@@ -26,6 +26,7 @@ export default function PlaceModalScreen({
         .then((response) => response.json())
         .then((json) => {
           setData(json);
+          console.log(data);
           setLoading(false);
         })
         .catch((error) => console.error(error))
@@ -74,7 +75,7 @@ export default function PlaceModalScreen({
           <View style={styles.content}>
             <View style={styles.row}>
               <View style={styles.column}>
-                <Text style={styles.columnValue}>{data.user}</Text>
+                <Text style={styles.columnValue}>{data.user.username}</Text>
               </View>
               <View style={styles.column}>
                 <Text style={styles.columnValue}>{data.accessibility}</Text>
@@ -92,10 +93,10 @@ export default function PlaceModalScreen({
             <Text style={styles.sectionTitle}>Category</Text>
             <Text>{data.category}</Text>
 
-            <Text>User : {data.user}</Text>
+            <Text>User : {data.user.username}</Text>
 
             <Text style={styles.sectionTitle}>Comments</Text>
-            <Text>{data.comments}</Text>
+            <Text>{data.comments ? data.comments : "No comments yet"}</Text>
           </View>
         </ScrollView>
       </Modal>
