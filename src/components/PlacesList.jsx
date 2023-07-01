@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import PlaceCard from "./PlaceCard";
 import { API_URL } from "@env";
@@ -30,20 +31,22 @@ export default function PlacesList({ onRefresh }) {
     }
   };
 
+  const renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handlePlacePress(item)}>
+      <PlaceCard title={item.title} town={item.town} image={item.images[0].url} />
+    </TouchableOpacity>
+  );
+
   return (
     <View>
       <Text style={styles.header}>Places</Text>
-      <ScrollView horizontal={true} stickyHeaderIndices={[0]}>
-        {data.map((place) => (
-          <TouchableOpacity key={place._id} onPress={() => handlePlacePress(place)}>
-            <PlaceCard
-              title={place.title}
-              town={place.town}
-              image={place.images[0].url}
-            />
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item._id}
+        renderItem={renderItem}
+        horizontal={true}
+        stickyHeaderIndices={[0]}
+      />
     </View>
   );
 }
