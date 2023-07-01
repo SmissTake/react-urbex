@@ -10,9 +10,10 @@ import {
   Keyboard,
   ScrollView,
   Image,
+  FlatList,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CreatePlaceScreen({ navigation }) {
   const [title, setTitle] = useState("");
@@ -21,29 +22,30 @@ export default function CreatePlaceScreen({ navigation }) {
   const [history, setHistory] = useState("");
   const [accessibility, setAccessibility] = useState("");
   const [category, setCategory] = useState("");
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     const data = new FormData();
-    data.append('title', title);
-    data.append('town', town);
-    data.append('description', description);
-    data.append('history', history);
-    data.append('accessibility', accessibility);
-    data.append('category', category);
-    data.append('images', {
-      uri: image.uri,
-      type: "image/jpeg",
-      name: "image.jpg",
+    data.append("title", title);
+    data.append("town", town);
+    data.append("description", description);
+    data.append("history", history);
+    data.append("accessibility", accessibility);
+    data.append("category", category);
+    images.forEach((image, index) => {
+      data.append(`images[${index}]`, {
+        uri: image.uri,
+        type: "image/jpeg",
+        name: `image_${index}.jpg`,
+      });
     });
     const token = await AsyncStorage.getItem("token");
-    console.log(data);
 
     fetch(`${process.env.API_URL}/place`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: data,
     })
@@ -58,14 +60,22 @@ export default function CreatePlaceScreen({ navigation }) {
   const handleImagePicker = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
       quality: 1,
+      allowsMultipleSelection: true,
+      noData: true,
     });
-  
     if (!result.canceled) {
-      setImage(result);
+      const selectedImages = result.assets
+        .filter((asset) => !images.some((image) => image.uri === asset.uri))
+        .map((asset) => ({ uri: asset.uri }));
+      setImages([...images, ...selectedImages]);
+      console.log(images);
     }
   };
+
+  const renderImage = ({ item }) => (
+    (<Image source={{ uri: item.uri }} style={styles.image} />)
+  );
 
   return (
     <KeyboardAvoidingView
@@ -123,8 +133,14 @@ export default function CreatePlaceScreen({ navigation }) {
           <TouchableOpacity style={styles.button} onPress={handleImagePicker}>
             <Text style={styles.buttonText}>Select Image</Text>
           </TouchableOpacity>
-          {image && (
-            <Image source={{ uri: image.uri }} style={styles.image} />
+          {images && (
+            <FlatList
+              data={images}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderImage}
+              horizontal={true}
+              style={styles.imageList}
+            />
           )}
           <TouchableOpacity style={styles.button} onPress={handleSubmit}>
             <Text style={styles.buttonText}>Create Place</Text>
@@ -169,11 +185,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  imageContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginVertical: 10,
+  },
+  imageList: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
   image: {
-    width: "100%",
-    height: 200,
+    width: 100,
+    height: 100,
     resizeMode: "cover",
     marginTop: 10,
     marginBottom: 10,
+    marginRight: 10,
   },
 });
