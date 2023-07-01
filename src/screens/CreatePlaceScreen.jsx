@@ -13,6 +13,7 @@ import {
   FlatList,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { RadioButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CreatePlaceScreen({ navigation }) {
@@ -33,7 +34,7 @@ export default function CreatePlaceScreen({ navigation }) {
     data.append("accessibility", accessibility);
     data.append("category", category);
     images.forEach((image, index) => {
-      data.append(`images[${index}]`, {
+      data.append(`images`, {
         uri: image.uri,
         type: "image/jpeg",
         name: `image_${index}.jpg`,
@@ -74,7 +75,7 @@ export default function CreatePlaceScreen({ navigation }) {
   };
 
   const renderImage = ({ item }) => (
-    (<Image source={{ uri: item.uri }} style={styles.image} />)
+    <Image source={{ uri: item.uri }} style={styles.image} />
   );
 
   return (
@@ -117,12 +118,14 @@ export default function CreatePlaceScreen({ navigation }) {
             numberOfLines={4}
           />
           <Text style={styles.label}>Accessibility:</Text>
-          <TextInput
-            style={styles.input}
+          <RadioButton.Group
+            onValueChange={setAccessibility}
             value={accessibility}
-            onChangeText={setAccessibility}
-            placeholder='Enter accessibility'
-          />
+          >
+            <RadioButton.Item label='Easy' value='easy' />
+            <RadioButton.Item label='Medium' value='medium' />
+            <RadioButton.Item label='Hard' value='hard' />
+          </RadioButton.Group>
           <Text style={styles.label}>Category:</Text>
           <TextInput
             style={styles.input}
