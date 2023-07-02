@@ -67,6 +67,7 @@ export default function LoginScreen({ navigation }) {
       const json = await response.json();
       if (response.status === 200) {
         AsyncStorage.setItem("token", json.token);
+        AsyncStorage.setItem("user", JSON.stringify(json.user));
         showMessage('Login successful', 'success');
         redirectHome();
       }
