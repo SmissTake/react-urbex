@@ -1,11 +1,12 @@
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
 
 const Button = ({
         onPress,
         label,
         styleButton,
         styleLabel,
-        disabled
+        disabled,
+        loading,
     }) => {
 
     return (
@@ -14,11 +15,14 @@ const Button = ({
             style={[styleButton ? styleButton : styles.button, disabled && styles.disabledButton]}
             disabled={disabled}
         >
+            {loading && <ActivityIndicator size="small" color="#0000ff" />}
+
+            {!loading && 
             <Text
                 style={styleLabel ? styleLabel : styles.label}
             >
                 { label }
-            </Text>
+            </Text>}
         </TouchableOpacity>
     );
 };
