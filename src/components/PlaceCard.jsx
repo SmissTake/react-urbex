@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   },
   placeCardContent: {
     padding: 10,
-    height: 100,
   },
   placeCardImage: {
     width: "100%",
@@ -40,6 +39,7 @@ const styles = StyleSheet.create({
     margin: 0,
     fontSize: 24,
     fontWeight: "bold",
+    fontFamily: "PolySans",
   },
   placeCardTown: {
     margin: 0,

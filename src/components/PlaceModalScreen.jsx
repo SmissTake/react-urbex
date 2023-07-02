@@ -64,7 +64,7 @@ export default function PlaceModalScreen({
             style={styles.closeButton}
             onPress={handleCloseModal}
           >
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Icon name='close' size={20} color='black' />
           </TouchableOpacity>
 
           <View style={styles.content}>
