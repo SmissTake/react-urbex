@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: "bold",
+    fontFamily: "PolySans",
     padding: 10,
     backgroundColor: "white",
     borderBottomWidth: 1,
