@@ -17,6 +17,7 @@ import { RadioButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Button from "../components/Button";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default function CreatePlaceScreen({ navigation }) {
   const [title, setTitle] = useState("");
@@ -102,9 +103,8 @@ export default function CreatePlaceScreen({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView style={styles.content}>
@@ -180,7 +180,7 @@ export default function CreatePlaceScreen({ navigation }) {
           />
         </ScrollView>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 
