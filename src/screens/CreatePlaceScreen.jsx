@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import { RadioButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Button from "../components/Button";
 
 export default function CreatePlaceScreen({ navigation }) {
   const [title, setTitle] = useState("");
@@ -105,9 +106,12 @@ export default function CreatePlaceScreen({ navigation }) {
               style={styles.imageList}
             />
           )}
-          <TouchableOpacity style={styles.button} onPress={handleImagePicker}>
-            <Text style={styles.buttonText}>Select Image</Text>
-          </TouchableOpacity>
+          <Button
+            label='Select Image'
+            onPress={handleImagePicker}
+            styleButton={styles.button}
+            styleLabel={styles.buttonText}
+          />
           <Text style={styles.label}>Title:</Text>
           <TextInput
             style={styles.input}
@@ -156,9 +160,12 @@ export default function CreatePlaceScreen({ navigation }) {
             onChangeText={setCategory}
             placeholder='Enter category'
           />
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Create Place</Text>
-          </TouchableOpacity>
+          <Button 
+            label='Create Place' 
+            onPress={handleSubmit} 
+            styleButton={styles.button} 
+            styleLabel={styles.buttonText} 
+          />
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -188,7 +195,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: "red",
     padding: 10,
     borderRadius: 5,
     marginTop: 10,

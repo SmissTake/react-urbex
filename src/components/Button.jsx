@@ -1,13 +1,15 @@
 import { TouchableOpacity, Text } from "react-native";
 
-const Button = ({onPress, label}) => {
+const Button = ({onPress, label, styleButton, styleLabel}) => {
 
     return (
         <TouchableOpacity
             onPress={ onPress }
-            style={styles.button}
+            style={styleButton ? styleButton : styles.button}
         >
-            <Text>
+            <Text
+                style={styleLabel ? styleLabel : styles.label}
+            >
                 { label }
             </Text>
         </TouchableOpacity>
@@ -24,5 +26,10 @@ const styles = {
         margin: 10,
         borderRadius: 5,
         elevation: 20
+    },
+    label: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "black"
     }
 };
