@@ -90,6 +90,17 @@ export default function CreatePlaceScreen({ navigation }) {
     </View>
   );
 
+  const isFormValid = () => {
+    return (
+      title.length > 0 &&
+      town.length > 0 &&
+      description.length > 0 &&
+      history.length > 0 &&
+      accessibility.length > 0 &&
+      category.length > 0
+    );
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -161,10 +172,11 @@ export default function CreatePlaceScreen({ navigation }) {
             placeholder='Enter category'
           />
           <Button 
-            label='Create Place' 
-            onPress={handleSubmit} 
-            styleButton={styles.button} 
-            styleLabel={styles.buttonText} 
+            label='Create Place'
+            onPress={handleSubmit}
+            styleButton={styles.button}
+            styleLabel={styles.buttonText}
+            disabled={!isFormValid()}
           />
         </ScrollView>
       </TouchableWithoutFeedback>

@@ -1,11 +1,18 @@
 import { TouchableOpacity, Text } from "react-native";
 
-const Button = ({onPress, label, styleButton, styleLabel}) => {
+const Button = ({
+        onPress,
+        label,
+        styleButton,
+        styleLabel,
+        disabled
+    }) => {
 
     return (
         <TouchableOpacity
             onPress={ onPress }
-            style={styleButton ? styleButton : styles.button}
+            style={[styleButton ? styleButton : styles.button, disabled && styles.disabledButton]}
+            disabled={disabled}
         >
             <Text
                 style={styleLabel ? styleLabel : styles.label}
@@ -31,5 +38,8 @@ const styles = {
         fontSize: 18,
         fontWeight: "bold",
         color: "black"
-    }
+    },
+    disabledButton: {
+        opacity: 0.5,
+    },
 };
