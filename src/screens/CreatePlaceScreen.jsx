@@ -107,7 +107,9 @@ export default function CreatePlaceScreen({ navigation }) {
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView style={styles.content}>
+        <ScrollView 
+          style={styles.content}
+        >
           {images && (
             <FlatList
               data={images}
@@ -120,7 +122,7 @@ export default function CreatePlaceScreen({ navigation }) {
           <Button
             label='Select Image'
             onPress={handleImagePicker}
-            styleButton={styles.button}
+            styleButton={styles.addButton}
             styleLabel={styles.buttonText}
           />
           <Text style={styles.label}>Title:</Text>
@@ -222,6 +224,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 10,
     marginBottom: 10,
+  },
+  addButton: {
+    backgroundColor: "#93A75F",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    marginBottom: 10,
+    alignSelf: "center",
+    width: 100,
   },
   buttonText: {
     color: "white",

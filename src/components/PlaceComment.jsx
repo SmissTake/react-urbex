@@ -1,8 +1,16 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import FullScreenImage from './FullScreenImage';
 
 const Comment = ({ comment }) => {
   const { user, comment: commentText, images } = comment;
+  const [visible, setVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImagePress = (image) => {
+    setSelectedImage(image);
+    setVisible(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -11,14 +19,20 @@ const Comment = ({ comment }) => {
       {images && images.length > 0 && (
         <View style={styles.imageContainer}>
           {images.map((image) => (
-            <Image
-              key={image._id}
-              source={{ uri: image.url }}
-              style={styles.image}
-            />
+            <TouchableOpacity key={image._id} onPress={() => handleImagePress(image.url)}>
+              <Image
+                source={{ uri: process.env.API_URL + '/' + image.url }}
+                style={styles.image}
+              />
+            </TouchableOpacity>
           ))}
         </View>
       )}
+      <FullScreenImage
+        imageUrl={selectedImage}
+        visible={visible}
+        onClose={() => setVisible(false)}
+      />
     </View>
   );
 };
