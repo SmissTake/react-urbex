@@ -7,10 +7,12 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
-import moment from 'moment';
+import moment from "moment";
 import ImagesCarousel from "./ImageCarousel";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Comment from "./PlaceComment";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function PlaceModalScreen({
   modalVisible,
@@ -78,14 +80,16 @@ export default function PlaceModalScreen({
             <View style={styles.row}>
               <View style={styles.column}>
                 <Text style={styles.columnValue}>{data.user.username}</Text>
-                <Text style={styles.postedAt}>{moment(data.created_at).format('DD/MM/YYYY')}</Text>
+                <Text style={styles.postedAt}>
+                  {moment(data.created_at).format("DD/MM/YYYY")}
+                </Text>
               </View>
               <View style={styles.column}>
-                <Icon name="universal-access" size={40} color="black" />
+                <Icon name='universal-access' size={40} color='black' />
                 <Text style={styles.columnValue}>{data.accessibility}</Text>
               </View>
               <View style={styles.column}>
-                <Icon name="building" size={40} color="black" />
+                <Icon name='building' size={40} color='black' />
                 <Text style={styles.columnValue}>{data.category}</Text>
               </View>
             </View>
@@ -95,13 +99,15 @@ export default function PlaceModalScreen({
             <Text style={styles.sectionTitle}>History</Text>
             <Text>{data.history}</Text>
 
-            <Text style={styles.sectionTitle}>Category</Text>
-            <Text>{data.category}</Text>
-
-            <Text>User : {data.user.username}</Text>
-
-            <Text style={styles.sectionTitle}>Comments</Text>
-            <Text>{data.comments ? data.comments : "No comments yet"}</Text>
+            <FlatList
+              data={data.comments}
+              renderItem={({ item }) => <Comment comment={item} />}
+              keyExtractor={(item) => item._id}
+              ListHeaderComponent={
+                <Text style={styles.sectionTitle}>Comments</Text>
+              }
+              ListEmptyComponent={<Text>No comments yet</Text>}
+            />
           </View>
         </ScrollView>
       </Modal>
@@ -130,7 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
     marginVertical: 10,
-    fontFamily: 'PolySans',
+    fontFamily: "PolySans",
   },
   town: {
     fontSize: 18,
@@ -144,7 +150,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 10,
-    fontFamily: 'PolySans',
+    fontFamily: "PolySans",
   },
   row: {
     flexDirection: "row",
