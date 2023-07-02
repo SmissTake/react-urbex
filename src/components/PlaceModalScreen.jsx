@@ -8,7 +8,9 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import moment from 'moment';
 import ImagesCarousel from "./ImageCarousel";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function PlaceModalScreen({
   modalVisible,
@@ -76,11 +78,14 @@ export default function PlaceModalScreen({
             <View style={styles.row}>
               <View style={styles.column}>
                 <Text style={styles.columnValue}>{data.user.username}</Text>
+                <Text style={styles.postedAt}>{moment(data.created_at).format('DD/MM/YYYY')}</Text>
               </View>
               <View style={styles.column}>
+                <Icon name="universal-access" size={40} color="black" />
                 <Text style={styles.columnValue}>{data.accessibility}</Text>
               </View>
               <View style={styles.column}>
+                <Icon name="building" size={40} color="black" />
                 <Text style={styles.columnValue}>{data.category}</Text>
               </View>
             </View>
@@ -148,5 +153,10 @@ const styles = StyleSheet.create({
   column: {
     flex: 1,
     marginHorizontal: 5,
+    alignItems: "center",
+  },
+  postedAt: {
+    fontSize: 12,
+    color: "grey",
   },
 });
