@@ -15,6 +15,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { RadioButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function CreatePlaceScreen({ navigation }) {
   const [title, setTitle] = useState("");
@@ -74,8 +75,18 @@ export default function CreatePlaceScreen({ navigation }) {
     }
   };
 
+  const removeImage = (image) => {
+    const newImages = images.filter((img) => img.uri !== image.uri);
+    setImages(newImages);
+  };
+
   const renderImage = ({ item }) => (
-    <Image source={{ uri: item.uri }} style={styles.image} />
+    <View>
+      <Image source={{ uri: item.uri }} style={styles.image} />
+      <TouchableOpacity onPress={() => removeImage(item)}>
+        <Icon name='remove' size={20} color='black' style={styles.removeIcon} />
+      </TouchableOpacity>
+    </View>
   );
 
   return (
@@ -85,6 +96,18 @@ export default function CreatePlaceScreen({ navigation }) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView style={styles.content}>
+          {images && (
+            <FlatList
+              data={images}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderImage}
+              horizontal={true}
+              style={styles.imageList}
+            />
+          )}
+          <TouchableOpacity style={styles.button} onPress={handleImagePicker}>
+            <Text style={styles.buttonText}>Select Image</Text>
+          </TouchableOpacity>
           <Text style={styles.label}>Title:</Text>
           <TextInput
             style={styles.input}
@@ -133,18 +156,6 @@ export default function CreatePlaceScreen({ navigation }) {
             onChangeText={setCategory}
             placeholder='Enter category'
           />
-          <TouchableOpacity style={styles.button} onPress={handleImagePicker}>
-            <Text style={styles.buttonText}>Select Image</Text>
-          </TouchableOpacity>
-          {images && (
-            <FlatList
-              data={images}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderImage}
-              horizontal={true}
-              style={styles.imageList}
-            />
-          )}
           <TouchableOpacity style={styles.button} onPress={handleSubmit}>
             <Text style={styles.buttonText}>Create Place</Text>
           </TouchableOpacity>
@@ -206,5 +217,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     marginRight: 10,
+  },
+  removeIcon: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    backgroundColor: "white",
+    opacity: 0.7,
+    padding: 5,
   },
 });
