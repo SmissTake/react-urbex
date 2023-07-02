@@ -6,7 +6,7 @@ export default function ImagesCarousel({ images }) {
         return (
             <Image
             source={{ uri: process.env.API_URL + "/" + item.url }}
-                style={{ width: 300, height: 400 }}
+                style={{ width: 350, height: 450 }}
             />
         );
     }
@@ -15,9 +15,9 @@ export default function ImagesCarousel({ images }) {
         <Carousel
             data={images}
             renderItem={renderItem}
-            sliderWidth={300}
+            sliderWidth={350}
             borderRadius={5}
-            itemWidth={300}
+            itemWidth={350}
         />
     );
 }
