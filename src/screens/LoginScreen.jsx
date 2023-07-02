@@ -34,9 +34,21 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   const redirectHome = () => {
-    navigation.navigate("TabNavigator", {
-      screen: "HomeScreen",
-    });
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'TabNavigator', params: { screen: 'HomeScreen' } }],
+      })
+    );
+  };
+
+  const redirectRegister = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'RegisterScreen' }],
+      })
+    );
   };
 
   const SubmitLogin = async () => {
@@ -97,7 +109,7 @@ export default function LoginScreen({ navigation }) {
 
           <Button
             label='Register'
-            onPress={() => navigation.navigate("RegisterScreen")}
+            onPress={() => redirectRegister()}
           />
         </SafeAreaView>
       </TouchableWithoutFeedback>

@@ -16,7 +16,12 @@ export default function RegisterScreen({ navigation }) {
   const [loader, setLoader] = useState(false);
 
   const redirectLogin = () => {
-    navigation.navigate('LoginScreen');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'LoginScreen' }],
+      })
+    );
   };
 
   const passwordMatch = () => {
