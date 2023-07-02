@@ -13,6 +13,8 @@ import moment from "moment";
 import ImagesCarousel from "./ImageCarousel";
 import Comment from "./PlaceComment";
 import Icon from "react-native-vector-icons/FontAwesome";
+import CommentInput from "./CommentInput";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function PlaceModalScreen({
   modalVisible,
@@ -38,6 +40,10 @@ export default function PlaceModalScreen({
     }
   }, [place]);
 
+  const handleCommentCreated = (updatedPlace) => {
+    setData(updatedPlace);
+  };
+
   if (loading) {
     return (
       <Modal
@@ -59,7 +65,7 @@ export default function PlaceModalScreen({
         visible={modalVisible}
         presentationStyle={"pageSheet"}
       >
-        <ScrollView contentContainerStyle={styles.container}>
+        <KeyboardAwareScrollView contentContainerStyle={styles.container}>
           <TouchableOpacity
             style={styles.closeButton}
             onPress={handleCloseModal}
@@ -99,6 +105,11 @@ export default function PlaceModalScreen({
             <Text style={styles.sectionTitle}>History</Text>
             <Text>{data.history}</Text>
 
+            <CommentInput
+              placeId={data._id}
+              onCommentCreated={handleCommentCreated}
+              />
+
             <FlatList
               data={data.comments}
               renderItem={({ item }) => <Comment comment={item} />}
@@ -109,7 +120,7 @@ export default function PlaceModalScreen({
               ListEmptyComponent={<Text>No comments yet</Text>}
             />
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </Modal>
     );
   }
@@ -145,6 +156,8 @@ const styles = StyleSheet.create({
   content: {
     textAlign: "justify",
     width: "100%",
+    marginTop: 15,
+    marginBottom: 25,
   },
   sectionTitle: {
     fontSize: 24,
@@ -166,5 +179,9 @@ const styles = StyleSheet.create({
   postedAt: {
     fontSize: 12,
     color: "grey",
+  },
+  columnValue: {
+    fontWeight: "bold",
+    textTransform: "capitalize",
   },
 });
