@@ -7,10 +7,11 @@ import CreatePlaceScreen from "./src/screens/CreatePlaceScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import UserScreen from "./src/screens/UserScreen";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MessageProvider } from "./src/contexts/MessageContext";
 import { RootSiblingParent } from "react-native-root-siblings";
 import { ModalProvider } from "./src/contexts/ModalContext";
+import * as Font from 'expo-font';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -28,6 +29,17 @@ function TabNavigator() {
 }
 
 export default function App() {
+  async function loadFonts() {
+    await Font.loadAsync({
+      'PolySans': require('./assets/fonts/PolySans/PolySansTrial-Bulky.otf'),
+    });
+  }
+  
+  // Call the loadFonts function when the app starts
+  useEffect(() => {
+    loadFonts();
+  }, []);
+
   return (
     <MessageProvider>
       <RootSiblingParent>

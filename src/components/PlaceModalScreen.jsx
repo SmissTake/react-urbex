@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
     marginVertical: 10,
+    fontFamily: 'PolySans',
   },
   town: {
     fontSize: 18,
@@ -143,6 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 10,
+    fontFamily: 'PolySans',
   },
   row: {
     flexDirection: "row",
