@@ -13,7 +13,7 @@ function TabNavigator() {
     <ModalProvider>
       <Tab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: "blue",
+          tabBarActiveTintColor: "#93A75F",
           tabBarTabStyle: {
             borderRightWidth: 1,
             borderRightColor: "gray",
