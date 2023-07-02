@@ -139,7 +139,7 @@ export default function CreatePlaceScreen({ navigation }) {
           />
           <Text style={styles.label}>Description:</Text>
           <TextInput
-            style={styles.input}
+            style={styles.inputMultiline}
             value={description}
             onChangeText={setDescription}
             placeholder='Enter description'
@@ -148,7 +148,7 @@ export default function CreatePlaceScreen({ navigation }) {
           />
           <Text style={styles.label}>History:</Text>
           <TextInput
-            style={styles.input}
+            style={styles.inputMultiline}
             value={history}
             onChangeText={setHistory}
             placeholder='Enter history'
@@ -205,6 +205,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+  },
+  inputMultiline: {
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+    textAlignVertical: "top",
+    height: 100,
   },
   button: {
     backgroundColor: "#93A75F",
