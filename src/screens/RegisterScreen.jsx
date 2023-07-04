@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { KeyboardAvoidingView, Keyboard, TextInput, TouchableWithoutFeedback, SafeAreaView } from "react-native";
 import Button from "../components/Button";
 import { StyleSheet } from "react-native";
@@ -6,6 +6,8 @@ import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CommonActions } from "@react-navigation/native";
 import { API_URL } from "@env";
+import { MessageContext } from '../contexts/MessageContext';
+import customFetch from "../utils/fetch";
 
 export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = useState();
@@ -14,6 +16,8 @@ export default function RegisterScreen({ navigation }) {
   const [passwordConfirmation, setPasswordConfirmation] = useState();
 
   const [loader, setLoader] = useState(false);
+
+  const { showMessage } = useContext(MessageContext);
 
   const redirectLogin = () => {
     navigation.dispatch(
@@ -31,35 +35,22 @@ export default function RegisterScreen({ navigation }) {
     return false;
   };
 
-  const SubmitLogin = async () => {
+  const SubmitRegister = async () => {
     setLoader(true);
     try {
-        const response = await fetch(
-          `${API_URL}/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            email,
-            password
-          }),
-        }
-      )
-      const json = await response.json();
-      console.log(json);
-      if (response.status === 201) {
-        console.log('success');
-        redirectLogin();
-      }
+      const data = await customFetch(`${API_URL}/register`, {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      }, 'Registration successful', showMessage, navigation);
+      redirectLogin();
     } catch (error) {
-      setLoader(false);
       console.log(error);
     }
     setLoader(false);
-    return;
   };
 
   return (
@@ -103,7 +94,7 @@ export default function RegisterScreen({ navigation }) {
             <Button
               disabled={!passwordMatch()}
               label='Register'
-              onPress={() => SubmitLogin(username, password)}
+              onPress={() => SubmitRegister(username, password)}
             />
           )}
           <Button
