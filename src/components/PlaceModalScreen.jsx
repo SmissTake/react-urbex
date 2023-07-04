@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Modal,
   Text,
@@ -15,6 +15,9 @@ import Comment from "./PlaceComment";
 import Icon from "react-native-vector-icons/FontAwesome";
 import CommentInput from "./CommentInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import customFetch from "../utils/fetch";
+import { MessageContext } from "../contexts/MessageContext";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PlaceModalScreen({
   modalVisible,
@@ -24,19 +27,35 @@ export default function PlaceModalScreen({
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const navigation = useNavigation();
+  const { showMessage } = useContext(MessageContext);
+
   useEffect(() => {
     if (place) {
       setLoading(true);
       setData([]);
-      fetch(`${process.env.API_URL}/place/${place._id}`)
-        .then((response) => response.json())
-        .then((json) => {
-          setData(json);
-          console.log(data);
-          setLoading(false);
-        })
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
+      // fetch(`${process.env.API_URL}/place/${place._id}`)
+      //   .then((response) => response.json())
+      //   .then((json) => {
+      //     setData(json);
+      //     console.log(data);
+      //     setLoading(false);
+      //   })
+      //   .catch((error) => console.error(error))
+      //   .finally(() => setLoading(false));
+      customFetch(
+        `${process.env.API_URL}/place/${place._id}`,
+        {
+          method: "GET",
+        },
+        "",
+        showMessage,
+        navigation
+      )
+      .then((json) => {
+        setData(json);
+        setLoading(false);
+      })
     }
   }, [place]);
 
