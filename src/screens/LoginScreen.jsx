@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CommonActions } from "@react-navigation/native";
 import { API_URL } from "@env";
 import { MessageContext } from '../contexts/MessageContext';
+import customFetch from "../utils/fetch";
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState();
@@ -54,33 +55,20 @@ export default function LoginScreen({ navigation }) {
   const SubmitLogin = async () => {
     setLoader(true);
     try {
-      const response = await fetch(`${API_URL}/login`, {
+      const data = await customFetch(`${API_URL}/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           username,
           password,
         }),
-      });
-      const json = await response.json();
-      if (response.status === 200) {
-        AsyncStorage.setItem("token", json.token);
-        AsyncStorage.setItem("user", JSON.stringify(json.user));
-        showMessage('Login successful', 'success');
-        redirectHome();
-      }
-      if (response.status === 401) {
-        showMessage('Invalid username or password', 'error');
-      }
+      }, 'Login successful', showMessage, navigation);
+      AsyncStorage.setItem("token", data.token);
+      AsyncStorage.setItem("user", JSON.stringify(data.user));
+      redirectHome();
     } catch (error) {
-      setLoader(false);
       console.log(error);
-      showMessage('Something went wrong', 'error');
     }
     setLoader(false);
-    return;
   };
 
   return (

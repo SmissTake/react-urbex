@@ -2,27 +2,35 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logout } from './logout';
 
-const handleErrors = (response, showMessage) => {
+const handleErrors = (response, showMessage, navigation) => {
   if (!response.ok) {
     console.log("ERROR");
+    let message = response.statusText || 'Something went wrong';
+    switch (response.status) {
+      case 401:
+        message = 'Incorrect username or password';
+        break;
+      case 403:
+        message = 'Forbidden';
+        logout(navigation);
+        break;
+      case 404:
+        message = 'Not found';
+        break;
+      case 422:
+        message = 'Non valid data';
+        break;
+      case 500:
+        message = 'Server error';
+        break;
+      default:
+        break;
+    }
     showMessage(
-      response.statusText,
+      message,
       'danger'
     );
     throw Error(response.statusText);
-  }
-  return response;
-};
-
-const handleForbidden = (response, showMessage, navigation) => {
-  if (response.status === 403) {
-    console.log("Forbidden");
-    showMessage(
-      'Forbidden',
-      'danger'
-      );
-    logout(navigation);
-    throw Error('Forbidden');
   }
   return response;
 };
@@ -69,8 +77,7 @@ const customFetch = async (url, options = {}, successMessage, showMessage, navig
     }
     return response;
   })
-  .then(response => handleErrors(response, showMessage))
-  .then(response => handleForbidden(response, showMessage, navigation))
+  .then(response => handleErrors(response, showMessage, navigation))
   .then(response => handleSuccess(response, successMessage, showMessage))
   .then((response) => response.json()
   .then((data) => {
