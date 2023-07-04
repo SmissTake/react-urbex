@@ -34,15 +34,6 @@ export default function PlaceModalScreen({
     if (place) {
       setLoading(true);
       setData([]);
-      // fetch(`${process.env.API_URL}/place/${place._id}`)
-      //   .then((response) => response.json())
-      //   .then((json) => {
-      //     setData(json);
-      //     console.log(data);
-      //     setLoading(false);
-      //   })
-      //   .catch((error) => console.error(error))
-      //   .finally(() => setLoading(false));
       customFetch(
         `${process.env.API_URL}/place/${place._id}`,
         {
@@ -124,20 +115,20 @@ export default function PlaceModalScreen({
             <Text style={styles.sectionTitle}>History</Text>
             <Text>{data.history}</Text>
 
-            <CommentInput
-              placeId={data._id}
-              onCommentCreated={handleCommentCreated}
-              />
-
-            <FlatList
-              data={data.comments}
-              renderItem={({ item }) => <Comment comment={item} />}
-              keyExtractor={(item) => item._id}
-              ListHeaderComponent={
+              <View>
                 <Text style={styles.sectionTitle}>Comments</Text>
-              }
-              ListEmptyComponent={<Text>No comments yet</Text>}
-            />
+                <CommentInput
+                  placeId={data._id}
+                  onCommentCreated={handleCommentCreated}
+                />
+                {data.comments.length > 0 ? (
+                  data.comments.map((comment) => (
+                    <Comment key={comment._id} comment={comment} />
+                  ))
+                ) : (
+                  <Text>No comments yet</Text>
+                )}
+              </View>
           </View>
         </KeyboardAwareScrollView>
       </Modal>
