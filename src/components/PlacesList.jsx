@@ -10,19 +10,31 @@ import {
 import PlaceCard from "./PlaceCard";
 import { API_URL } from "@env";
 import { ModalContext } from "../contexts/ModalContext";
+import customFetch from "../utils/fetch";
+import { MessageContext } from "../contexts/MessageContext";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PlacesList({ onRefresh }) {
   const [data, setData] = useState([]);
   const { openModal } = useContext(ModalContext);
+  const { showMessage } = useContext(MessageContext);
+  const navigation = useNavigation();
   
   useEffect(() => {
-    fetch(`${API_URL}`)
-      .then((response) => response.json())
+    customFetch(
+        `${API_URL}`,
+        {
+          method: "GET",
+        },
+        '',
+        showMessage,
+        navigation
+      )
       .then((json) => {
         setData(json);
         onRefresh();
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error));  
   }, []);
 
   const handlePlacePress = (place) => {

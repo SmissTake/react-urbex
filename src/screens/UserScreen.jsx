@@ -2,9 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import Button from '../components/Button';
 import { logout } from '../utils/logout';
+import { useNavigation } from '@react-navigation/native';
 
 export default function UserScreen() {
-
+  const navigation = useNavigation();
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -12,7 +14,7 @@ export default function UserScreen() {
       <Button
         label="Logout"
         onPress={() => {
-          logout();
+          logout(navigation);
         }}
       />
     </SafeAreaView>
