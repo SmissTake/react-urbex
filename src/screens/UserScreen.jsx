@@ -1,20 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import Button from '../components/Button';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CommonActions } from "@react-navigation/native";
+import { logout } from '../utils/logout';
 
-export default function UserScreen({ navigation }) {
-
-  const logout = () => {
-    AsyncStorage.removeItem('token');
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'LoginScreen' }],
-      })
-    );
-  };
+export default function UserScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
@@ -23,7 +12,6 @@ export default function UserScreen({ navigation }) {
       <Button
         label="Logout"
         onPress={() => {
-          console.log('Logout');
           logout();
         }}
       />

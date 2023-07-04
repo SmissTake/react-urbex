@@ -14,7 +14,7 @@ const Comment = ({ comment }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.username}>{user[0]}</Text>
+      <Text style={styles.username}>{user[0].username}</Text>
       <Text style={styles.commentText}>{commentText}</Text>
       {images && images.length > 0 && (
         <View style={styles.imageContainer}>
