@@ -3,9 +3,9 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MessageContext } from "../contexts/MessageContext";
@@ -35,16 +35,31 @@ export default function ProfileScreen({ route }) {
   };
 
   const handleDeleteAccount = async () => {
-    try {
-      await customFetch(`${API_URL}/user/${user._id}`, {
-        method: "DELETE",
-      }, "Account deleted successfully", showMessage, navigation);
-  
-      logout(navigation);
-    } catch (error) {
-      console.error(error);
-      showMessage("Error deleting account", "error");
-    }
+    Alert.alert(
+      "Delete Account",
+      "Are you sure you want to delete your account?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: async () => {
+            try {
+              await customFetch(`${API_URL}/user/${user._id}`, {
+                method: "DELETE",
+              }, "Account deleted successfully", showMessage, navigation);
+          
+              logout(navigation);
+            } catch (error) {
+              console.error(error);
+              showMessage("Error deleting account", "error");
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -55,26 +70,31 @@ export default function ProfileScreen({ route }) {
           <Text style={styles.subtitle}>{user.bio}</Text>
         </View>
         <View style={styles.options}>
-          <TouchableOpacity
-            style={styles.option}
+          <Button
+            label="Modify Profile"
             onPress={handleModifyProfile}
-          >
-            <Text style={styles.optionText}>Modify Profile</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.option}
+            styleLabel={styles.optionText}
+            styleButton={styles.option}
+          />
+          <Button
+            label="Change Password"
             onPress={handleChangePassword}
-          >
-            <Text style={styles.optionText}>Change Password</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.option}
+            styleLabel={styles.optionText}
+            styleButton={styles.option}
+          />
+          <Button
+            label="Delete Account"
             onPress={handleDeleteAccount}
-          >
-            <Text style={styles.optionText}>Delete Account</Text>
-          </TouchableOpacity>
+            styleButton={styles.redInline}
+            styleLabel={styles.optionTextWhite}
+          />
         </View>
-        <Button label="Logout" onPress={handleLogout} />
+        <Button 
+          label="Logout" 
+          onPress={handleLogout} 
+          styleButton={styles.redOutilne}
+          styleLabel={styles.optionTextRed}
+          />
       </ScrollView>
     </SafeAreaView>
   );
@@ -125,5 +145,32 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  redOutilne: {
+    backgroundColor: "white",
+    borderColor: "red",
+    borderWidth: 2,
+    borderRadius: 5,
+    padding: 10,
+    alignSelf: "stretch",
+  },
+  redInline: {
+    backgroundColor: "red",
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    alignSelf: "stretch",
+  },
+  optionTextWhite: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
+  },
+  optionTextRed: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "red",
   },
 });
