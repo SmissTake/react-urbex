@@ -9,7 +9,7 @@ import {
 import PlaceCard from "./PlaceCard";
 import { ModalContext } from "../contexts/ModalContext";
 
-export default function PlacesList({ data }) {
+export default function PlacesList({ title, data }) {
   const { openModal } = useContext(ModalContext);
 
   const handlePlacePress = (place) => {
@@ -26,7 +26,7 @@ export default function PlacesList({ data }) {
 
   return (
     <View>
-      <Text style={styles.header}>Places</Text>
+      <Text style={styles.header}>{title ? title : "Places"}</Text>
       <FlatList
         data={data}
         keyExtractor={(item) => item._id}
