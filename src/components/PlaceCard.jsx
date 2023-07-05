@@ -7,6 +7,22 @@ export default function PlaceCard({ place }) {
 
   const [isLiked, setIsLiked] = useState(false);
 
+  useEffect(() => {
+    async function checkIfLiked() {
+      try {
+        const user = await AsyncStorage.getItem("user");
+        const favoritesArray = JSON.parse(user)?.favoritePlaces;
+        if (favoritesArray && favoritesArray.includes(place._id)) {
+          setIsLiked(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    checkIfLiked();
+  }, [place._id]);
+
   const handleLikeToggle = (liked) => {
     setIsLiked(liked);
   };
@@ -14,12 +30,12 @@ export default function PlaceCard({ place }) {
   return (
     <View style={styles.placeCard}>
       <Image source={{uri:process.env.API_URL +'/'+ place.images[0].url}} alt={place.title} style={styles.placeCardImage} />
-      <View>
+      <View style={styles.placeCardBar}>
         <View style={styles.placeCardContent}>
           <Text style={styles.placeCardTitle}>{place.title}</Text>
           <Text style={styles.placeCardTown}>{place.town}</Text>
         </View>
-        <LikeButton placeId={place._id} isLiked={isLiked} onToggle={handleLikeToggle} />
+        <LikeButton placeId={place._id} isLiked={isLiked} onToggle={handleLikeToggle}/>
       </View>
     </View>
   );
@@ -57,5 +73,11 @@ const styles = StyleSheet.create({
     margin: 0,
     fontSize: 16,
     color: "#666",
+  },
+  placeCardBar: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
   },
 });

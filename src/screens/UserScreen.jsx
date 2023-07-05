@@ -78,12 +78,6 @@ export default function UserScreen() {
           </Text>
         </View>
         <PlacesList title={"Favorite Places"} data={user.favoritePlaces} />
-        <Button
-          label='Logout'
-          onPress={() => {
-            logout(navigation);
-          }}
-        />
       </ScrollView>
     </SafeAreaView>
   );

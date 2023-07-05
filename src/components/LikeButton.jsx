@@ -7,8 +7,8 @@ import { MessageContext } from "../contexts/MessageContext";
 import { API_URL } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function LikeButton({ placeId, onToggle }) {
-  const [liked, setLiked] = useState(false);
+export default function LikeButton({ placeId, onToggle, isLiked }) {
+  const [liked, setLiked] = useState(isLiked);
   const navigation = useNavigation();
   const { showMessage } = useContext(MessageContext);
 
@@ -18,7 +18,6 @@ export default function LikeButton({ placeId, onToggle }) {
         try {
           const user = await AsyncStorage.getItem("user");
           const favoritesArray = JSON.parse(user)?.favoritePlaces;
-          console.log(user);
           if (favoritesArray && favoritesArray.includes(placeId)) {
             setLiked(true);
           }
@@ -29,16 +28,23 @@ export default function LikeButton({ placeId, onToggle }) {
     }
   
     checkIfLiked();
-  }, [placeId]);
+  }, []);
 
   const handlePress = async () => {
     try {
-      const endpoint = liked ? `${API_URL}/place/${placeId}/unlike` : `${API_URL}/place/${placeId}/like`;
-      await customFetch(endpoint, {
+      if(liked) {
+        await customFetch(`${API_URL}/place/${placeId}/unlike`, {
           method: "POST"
-        }, "Place liked",showMessage, navigation);
-      setLiked(!liked);
-      onToggle(!liked);
+        }, "Place unliked", showMessage, navigation);
+        setLiked(false);
+        onToggle(false);
+      } else {
+        await customFetch(`${API_URL}/place/${placeId}/like`, {
+          method: "POST"
+        }, "Place liked", showMessage, navigation);
+        setLiked(true);
+        onToggle(true);
+      }
   
       // Get the user data from AsyncStorage
       const user = await AsyncStorage.getItem("user");
