@@ -1,41 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   Text,
   View,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   FlatList,
 } from "react-native";
 import PlaceCard from "./PlaceCard";
-import { API_URL } from "@env";
 import { ModalContext } from "../contexts/ModalContext";
-import customFetch from "../utils/fetch";
-import { MessageContext } from "../contexts/MessageContext";
-import { useNavigation } from "@react-navigation/native";
 
-export default function PlacesList({ onRefresh }) {
-  const [data, setData] = useState([]);
+export default function PlacesList({ data }) {
   const { openModal } = useContext(ModalContext);
-  const { showMessage } = useContext(MessageContext);
-  const navigation = useNavigation();
-  
-  useEffect(() => {
-    customFetch(
-        `${API_URL}`,
-        {
-          method: "GET",
-        },
-        '',
-        showMessage,
-        navigation
-      )
-      .then((json) => {
-        setData(json);
-        onRefresh();
-      })
-      .catch((error) => console.error(error));  
-  }, []);
 
   const handlePlacePress = (place) => {
     if (place) {

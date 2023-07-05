@@ -1,16 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StatusBar, StyleSheet, SafeAreaView, ScrollView, RefreshControl } from 'react-native';
 import PlacesList from '../components/PlacesList';
+import { API_URL } from '@env';
+import customFetch from "../utils/fetch";
+import { MessageContext } from "../contexts/MessageContext";
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
+  const [places, setPlaces] = useState([]);
+  const navigation = useNavigation();
+  const { showMessage } = useContext(MessageContext);
 
-  const onRefresh = () => {
+  const fetchPlaces = () => {
     setRefreshing(true);
-    // Call your API or fetch data here
-    setTimeout(() => {
+    customFetch(
+      `${API_URL}`,
+      {
+        method: "GET",
+      },
+      '',
+      showMessage,
+      navigation
+    )
+    .then((json) => {
+      setPlaces(json);
       setRefreshing(false);
-    }, 2000);
+
+    })
+    .catch((error) => console.error(error));
+  };
+
+  useEffect(() => {
+    fetchPlaces();
+  }, []);
+  
+  const onRefresh = () => {
+    fetchPlaces();
   };
 
   return (
@@ -22,7 +48,7 @@ export default function HomeScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <PlacesList onRefresh={onRefresh} />
+        <PlacesList data={places} />
       </ScrollView>
     </SafeAreaView>
   );
