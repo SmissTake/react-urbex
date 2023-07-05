@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, SafeAreaView, ScrollView, RefreshControl } from "react-native";
+import { Text, StyleSheet, SafeAreaView, ScrollView, RefreshControl, View } from "react-native";
 import React, { useEffect, useState, useContext } from "react";
 import Button from "../components/Button";
 import { logout } from "../utils/logout";
@@ -15,6 +15,10 @@ export default function UserScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [user, setUser] = useState([]);
   const { showMessage } = useContext(MessageContext);
+
+  const goToParameters = () => {
+    navigation.navigate("ParametersScreen", { user });
+  };
 
   const getUser = async () => {
     return JSON.parse(await AsyncStorage.getItem("user"));
@@ -60,6 +64,19 @@ export default function UserScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
+        {/* parameter view link with an icon */}
+        <Button
+          label='Parameter'
+          onPress={goToParameters}
+        />
+        <View style={styles.profile}>
+          <Text style={styles.title}>
+            {user.username}
+          </Text>
+          <Text style={styles.subtitle}>
+            {user.bio}
+          </Text>
+        </View>
         <PlacesList title={"Favorite Places"} data={user.favoritePlaces} />
         <Button
           label='Logout'
@@ -81,5 +98,18 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 20,
+    textAlign: "center",
+  },
+  profile: {
+    margin: 20,
+    alignItems: "center",
   },
 });

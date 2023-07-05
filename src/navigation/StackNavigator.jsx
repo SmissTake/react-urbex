@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TabNavigator from './TabNavigator';
+import ParametersScreen from '../screens/ParametersScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ function StackNavigator() {
           gestureDirection: "horizontal",
         }}
       />
+      <Stack.Screen name="ParametersScreen" component={ParametersScreen} />
     </Stack.Navigator>
   );
 }
