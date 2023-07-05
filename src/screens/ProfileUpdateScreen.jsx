@@ -69,10 +69,17 @@ export default function ProfileUpdateScreen({ route }) {
               style={styles.input}
               value={mail}
               onChangeText={setMail}
-              required
+              autoCompleteType='email'
+              textContentType='emailAddress'
+              keyboardType='email-address'
             />
             <Text style={styles.label}>Bio</Text>
-            <TextInput style={styles.input} value={bio} onChangeText={setBio} />
+            <TextInput
+              style={styles.input}
+              value={bio}
+              onChangeText={setBio}
+
+              />
             <Button
               label='Update'
               onPress={() => handleSave()}
@@ -97,6 +104,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    minWidth: 200,
     borderColor: "gray",
     backgroundColor: "white",
     borderWidth: 1,
