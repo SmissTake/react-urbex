@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Keyboard,
+  TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MessageContext } from "../contexts/MessageContext";
@@ -21,6 +22,9 @@ export default function ProfileUpdateScreen({ route }) {
   const navigation = useNavigation();
   const [password, setPassword] = useState(user.password);
   const [passwordConfirm, setPasswordConfirm] = useState(user.password);
+  const [passwordVisible, setPasswordVisible] = useState(true);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+
 
   const handleSave = async () => {
     // validate the form
@@ -54,28 +58,41 @@ export default function ProfileUpdateScreen({ route }) {
     }
   };
 
+  const toggleSecureTextEntry = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
-            <Text style={styles.label}>New Password</Text>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={setPassword}
-              required
-            />
-            <Text style={styles.label}>Confirm new password</Text>
-            <TextInput
-              style={styles.input}
-              value={passwordConfirm}
-              onChangeText={setPasswordConfirm}
-              required
-            />
-            <Button
-              label='Update'
-              onPress={() => handleSave()}
-            />
+          <Text style={styles.label}>New Password</Text>
+          <TextInput
+            style={styles.input}
+            value={password}
+            onChangeText={setPassword}
+            autoCompleteType='password'
+            textContentType='password'
+            secureTextEntry={secureTextEntry}
+          />
+          <Text style={styles.label}>Confirm new password</Text>
+          <TextInput
+            style={styles.input}
+            value={passwordConfirm}
+            onChangeText={setPasswordConfirm}
+            autoCompleteType='password'
+            textContentType='password'
+            secureTextEntry={secureTextEntry}
+          />
+          <TouchableOpacity
+            style={styles.passwordToggle}
+            onPress={toggleSecureTextEntry}
+          >
+            <Text style={styles.passwordToggleText}>
+              {secureTextEntry ? "Show" : "Hide"}
+            </Text>
+          </TouchableOpacity>
+          <Button label='Update' onPress={() => handleSave()} />
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -96,6 +113,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    minWidth: 200,
     borderColor: "gray",
     backgroundColor: "white",
     borderWidth: 1,
@@ -103,6 +121,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     elevation: 20,
+  },
+  passwordToggle: {
+    padding: 10,
+  },
+  passwordToggleText: {
+    color: "#007AFF",
+    fontWeight: "bold",
   },
   button: {
     backgroundColor: "#007AFF",
