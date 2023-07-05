@@ -5,6 +5,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import TabNavigator from './TabNavigator';
 import ParametersScreen from '../screens/ParametersScreen';
 import ProfileUpdateScreen from '../screens/ProfileUpdateScreen';
+import PasswordUpdateScreen from '../screens/PasswordUpdateScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ function StackNavigator() {
       />
       <Stack.Screen name="ParametersScreen" component={ParametersScreen} />
       <Stack.Screen name="ProfileUpdateScreen" component={ProfileUpdateScreen} />
+      <Stack.Screen name="PasswordUpdateScreen" component={PasswordUpdateScreen} />
     </Stack.Navigator>
   );
 }

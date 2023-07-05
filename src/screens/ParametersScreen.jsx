@@ -31,7 +31,7 @@ export default function ProfileScreen({ route }) {
 
   const handleChangePassword = () => {
     // Navigate to change password screen
-    navigation.navigate("ChangePassword");
+    navigation.navigate("PasswordUpdateScreen", { user });
   };
 
   const handleDeleteAccount = async () => {
