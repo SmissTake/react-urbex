@@ -20,7 +20,7 @@ export default function PlacesList({ title, data }) {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handlePlacePress(item)}>
-      <PlaceCard title={item.title} town={item.town} image={item.images[0].url} />
+      <PlaceCard place={item} />
     </TouchableOpacity>
   );
 

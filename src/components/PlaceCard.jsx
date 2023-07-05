@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, Image, View } from "react-native";
+import LikeButton from "./LikeButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function PlaceCard({ title, town, image }) {
+export default function PlaceCard({ place }) {
+
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLikeToggle = (liked) => {
+    setIsLiked(liked);
+  };
+
   return (
     <View style={styles.placeCard}>
-      <Image source={{uri:process.env.API_URL +'/'+ image}} alt={title} style={styles.placeCardImage} />
-      <View style={styles.placeCardContent}>
-        <Text style={styles.placeCardTitle}>{title}</Text>
-        <Text style={styles.placeCardTown}>{town}</Text>
+      <Image source={{uri:process.env.API_URL +'/'+ place.images[0].url}} alt={place.title} style={styles.placeCardImage} />
+      <View>
+        <View style={styles.placeCardContent}>
+          <Text style={styles.placeCardTitle}>{place.title}</Text>
+          <Text style={styles.placeCardTown}>{place.town}</Text>
+        </View>
+        <LikeButton placeId={place._id} isLiked={isLiked} onToggle={handleLikeToggle} />
       </View>
     </View>
   );
