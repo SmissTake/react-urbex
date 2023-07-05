@@ -26,7 +26,7 @@ export default function ProfileScreen({ route }) {
 
   const handleModifyProfile = () => {
     // Navigate to modify profile screen
-    navigation.navigate("ModifyProfile");
+    navigation.navigate("ProfileUpdateScreen", { user });
   };
 
   const handleChangePassword = () => {
